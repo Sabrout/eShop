@@ -1,0 +1,190 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300);
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+
+.header, .nav {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.header {
+  justify-content: space-between;
+}
+
+.nav {
+  -webkit-flex: 1;
+  flex: 1;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  font-family: "Roboto", sans-serif;
+}
+
+@media all and (min-width: 640px) {
+  .header, .nav {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+}
+
+@media all and (min-width: 1030px) {
+  .nav {
+    -webkit-flex: none;
+    flex: none;
+  }
+}
+
+html{
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Helvetica;
+  background: url('../IMG/background.png') top center no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  padding: 20px 0;
+  margin: 0 auto;
+}
+
+.logo {
+  background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/25480/treehouse-white.svg') center center no-repeat;
+  width: 195px;
+  background-size: contain;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nav {
+  list-style: none;
+}
+
+.nav li {
+  margin: 12px 0 12px 28px;
+}
+
+.nav li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.nav li a:hover {
+  color: rgba(255,255,255,0.7);
+}
+
+.nav li:last-child a {
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  transition: 200ms ease-in-out;
+  padding: 8px 16px 7px;
+}
+
+.nav li:last-child a:hover {
+  background: rgba(255,255,255,0.5);
+  color: #fff;
+}
+
+@media all and (min-width: 1030px) {
+  .header {
+    width: 1030px;
+    min-width: 768px;
+  }
+}
+
+input{
+  width: 300px;
+}
+
+#login{
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  margin: auto;
+}
+
+#textBox, #topText, #botText{
+  padding: 15px;
+  border: none;
+  height: 60px;
+}
+
+  #textBox:focus, #topText:focus, #botText:focus{
+    outline: none;
+  }
+
+#topText{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  
+  border-bottom: solid 1px #CCC;
+}
+#botText{
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#textBox{
+  border-bottom: solid 1px #CCC;
+}
+
+
+#loginButton{
+  height: 45px;
+  
+  border-radius: 5px;
+  border: none;
+  
+  margin-top: 20px;
+  background: #004454;
+  color: #FFFFFF;
+  transition: background .1s;
+}
+#loginButton:active{
+  background: #004454;
+}
+#loginButton:hover{
+  background: #0293B5;
+}
+#loginButton:focus{
+  outline: none;
+}
+
+#signUp{
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+}
+
+#signUp:active{
+      text-decoration: none;
+}
+
+#CreateAccount{
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
