@@ -160,6 +160,7 @@ input{
   color: #FFFFFF;
   transition: background .1s;
 }
+
 #loginButton:active{
   background: #004454;
 }
@@ -183,8 +184,10 @@ input{
 }
 
 #CreateAccount{
-  margin-left: auto;
+  margin-bottom: 15px;
   margin-right: auto;
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-size: 36px;
+  text-align: center;
+  color: #FFF;
 }

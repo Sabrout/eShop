@@ -17,20 +17,21 @@
   <div id="backgroundOverlay">
     <div id="login">
     <h1 id="CreateAccount">Create Account</h1>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data" method="POST">
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
         <input type="text" placeholder="First Name" id="topText" required name="fname" />
         <input type="text" placeholder="Last Name" id="textBox" required name="lname"/>
         <input type="text" placeholder="Email" id="textBox" required name="email"/>
         <input type="password" placeholder="Password" id="textBox" required name="password"/>
         <input type="password" placeholder="Confirm password" id="botText" required/>
-        <input type="file" id="uploadButton" name="image">
+<!--         <input type="file" name="image"> -->
+<!-- enctype="multipart/form-data" -->
         <input type="submit" id="loginButton" value="Sign up" name="submit"></input>
         <a href="Default.php">Already an account? <b>Login!</b></a>
       </form>      
     </div>
   </div>
   <?php
-    if (isset($_POST['submit'])) {
+    if (isset($POST['submit'])) {
       // Create connection
       $conn = mysqli_connect("localhost", "root", "", "eshop");
       // Check connection
@@ -38,12 +39,8 @@
         die("Connection failed: " . mysqli_connect_error());
       }
 
-      function test_input($data) {
-          $data = trim($data);
-          $data = stripslashes($data);
-          $data = htmlspecialchars($data);
-          return $data;
-        }
+      echo "Test";
+
       // define variables and set to empty values
       $fname = $lname = $email = $password = "";
 
@@ -51,25 +48,38 @@
         $fname = test_input($_POST["fname"]);
         $lname = test_input($_POST["lname"]);
         $email = test_input($_POST["email"]);
-        $password = hash("md5", test_input($_POST["password"]));
-        $imageData = mysql_real_escape_string(file_get_contents($_FILES["image"]["tmp_name"]));
-        $imageType = mysql_real_escape_string($_FILES["image"]["type"]);
+        $password = test_input($_POST["password"]);
         }
 
-      if (substr($imageType, 0, 5) == "image") {
-        $sql = "INSERT INTO users (fname, lname, email, password, avatar)
-        VALUES ('$fname', '$lname', '$email', '$password', '$imageData')";
-      } else {
-        echo "Shit";
+      function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
       }
 
-      
+      $imageName = mysql_real_escape_string($_FILES["image"]["name"]);
+      $imageData = mysql_real_escape_string(file_get_contents($_FILES["image"]["tmp_name"]));
+      $imageType = mysql_real_escape_string($_FILES["image"]["type"]);
+      //echo $imageData;
 
-      if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-        } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+      echo "before";
+      echo substr($imageName, -3);
+
+      // if (substr($imageName, -3) == "jpg" || substr($imageName, -3) == "png") {
+        echo "Doing";
+        $sql = "INSERT INTO users (fname, lname, email, password, avatar)
+        VALUES ('$fname', '$lname', '$email', '$password', null)";
+        echo "Done!!!";
+
+        if ($conn->query($sql) === TRUE) {
+          echo "New record created successfully";
+          } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+        // }else{
+        //   echo "Wrong Image Extension";
+        // }      
     }
     
   ?>
