@@ -3,11 +3,13 @@
 	<meta charset="UTF-8">
   <title>eShop</title>
   <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="CSS/home.css">
+  <script src="JS/index.js"></script>
 </head>
 <body>
-	<header class="header">
-      <h1 class="logo">Logo</h1>
-      <ul class="nav">
+	<header class="head">
+      <img src="IMG/logo.png" class="websiteLogo" alt="Logo">
+      <ul class="navbar">
         <li><a href="#">Shopping Cart</a></li>
         <li><a href="Register.php">Register</a></li>
         <li><a href="#">Sign in</a></li>
@@ -22,7 +24,7 @@
         <input type="text" placeholder="Last Name" id="textBox" required name="lname"/>
         <input type="text" placeholder="Email" id="textBox" required name="email"/>
         <input type="password" placeholder="Password" id="textBox" required name="password"/>
-        <input type="password" placeholder="Confirm password" id="botText" required/>
+        <input type="password" placeholder="Confirm password" id="botText" required name="conPassword" />
         <input type="file" id="uploadButton" name="image">
         <input type="submit" id="loginButton" value="Sign up" name="submit"></input>
         <a href="Default.php">Already an account? <b>Login!</b></a>
@@ -54,22 +56,34 @@
         $password = hash("md5", test_input($_POST["password"]));
         $imageData = mysql_real_escape_string(file_get_contents($_FILES["image"]["tmp_name"]));
         $imageType = mysql_real_escape_string($_FILES["image"]["type"]);
+        if ($_POST["password"] == $_POST["conPassword"]) {
+          $passFlag = true;
+        } else {
+          $passFlag = false;
+        }
         }
 
-      if (substr($imageType, 0, 5) == "image") {
-        $sql = "INSERT INTO users (fname, lname, email, password, avatar)
-        VALUES ('$fname', '$lname', '$email', '$password', '$imageData')";
+      if (substr($imageType, 0, 5) == "image" && $passFlag) {
+        $sql = "INSERT INTO users (fname, lname, email, password, avatar) VALUES ('$fname', '$lname', '$email', '$password', '$imageData')";
+      } else if (!$passFlag) {
+        echo '<script language="javascript">';
+        echo 'alert("PASSWORDS DID NOT MATCH")';
+        echo '</script>';
       } else {
-        echo "Shit";
-      }
-
-      
+        echo '<script language="javascript">';
+        echo 'alert("UPLOADED FILE IS NOT AN IMAGE TYPE")';
+        echo '</script>';
+      } 
 
       if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+        echo '<script language="javascript">';
+        echo 'alert("Welcom, " + $fname)';
+        echo '</script>';
         } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;
         }
+    header("Location: Default.php");
+    die();
     }
     
   ?>
