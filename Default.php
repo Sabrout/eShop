@@ -1,3 +1,15 @@
+<?php
+  session_start();
+  if (isset($_SESSION['EMAIL'])) {
+    $firstname = $_SESSION["FNAME"];
+    $lastname = $_SESSION["LNAME"];
+    $address = $_SESSION["EMAIL"];
+    $flag = true;
+    } else {
+      $flag = false;
+      // die("LOGIN REQUIRED");
+    }
+?>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -8,147 +20,378 @@
 
 </head>
 <body>
-	<header class="head">
-      <img src="IMG/logo.png" class="websiteLogo" alt="Logo">
-      <ul class="navbar">
-        <li><a href="#">Shopping Cart</a></li>
-        <li><a href="Register.php">Register</a></li>
-        <li><a href="#">Sign in</a></li>
+	<header class="header">
+      <a href="Default.php">
+      <img src="IMG/logo.png" class="logo" alt="Logo">
+      </a>
+      <ul class="nav">
+        <?php 
+        if (!$flag) { echo '<li class="omar1"><a href="Register.php">Register</a></li>';} else { $flage = false; echo '<li class="omar1"><a href="Profile.php">Profile</a></li>';}
+        if (!$flag) { echo '<li class="omar2"><a href="Signin.php">SignIn</a></li>';} else { $flage = false; echo '<li class="omar2"><a href="logout.php">SignOut</a></li>';}
+         ?>
       </ul>
   </header>
 
-  <?php  
+  <?php
     $db = mysqli_connect("localhost","root","","eshop"); //keep your db name
     $id = 1;
     $sql = "SELECT * FROM items WHERE id = $id";
     $sth = $db->query($sql);
     $result=mysqli_fetch_array($sth);
-    echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>';
-    
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+
+    function decrementState($data) {
+          $data = trim($data);
+          $data = stripslashes($data);
+          $data = htmlspecialchars($data);
+          return $data;
+        }
   ?>
+  <script type="text/javascript">
+    //Decrementing state colulmn
+
+  </script>
 
   <div id="goods" class="goods">
     <div id="product" class="product">
       <span id="info" class="info">
         <div id="index">
-          <img src="<?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?>" alt="PLZ" id="pic">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
         </div>
         <span id="text" class="text">
-          <h2 id="name">Suit</h2>
-          <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-          <h3>Colors</h3>
-          <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-          </ul>
-          <span id="price">$<span id="num">229</span>
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
           </span>
         </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+  <?php
+    $id = 2;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+
+    } else {
+      $state = "Available";
+    }
+  ?>
+
     <div id="product" class="product">
       <span id="info" class="info">
-                <div id="index">
-                  <img src="http://gdurl.com/dLcj" alt="" id="pic">
-                </div>
-          <span id="text" class="text">
-            <h2 id="name">Bow tie</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-            <h3>Colors</h3>
-            <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-            </ul>
-            <span id="price">$<span id="num">25</span></span>
-      </span>
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+
+  <?php
+    $id = 3;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
     <div id="product" class="product">
       <span id="info" class="info">
-                <div id="index">
-                  <img src="http://gdurl.com/co-O" alt="" id="pic">
-                </div>
-          <span id="text" class="text">
-            <h2 id="name">Sweater</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-            <h3>Colors</h3>
-            <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-            </ul>
-            <span id="price">$<span id="num">69.50</span></span>
-      </span>
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+
+  <?php
+    $id = 4;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
     <div id="product" class="product">
       <span id="info" class="info">
-                <div id="index">
-                  <img src="http://gdurl.com/NndH" alt="" id="pic">
-                </div>
-          <span id="text" class="text">
-            <h2 id="name">Hat</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-            <h3>Colors</h3>
-            <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-            </ul>
-            <span id="price">$<span id="num">34</span></span>
-      </span>
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+
+  <?php  
+    $id = 5;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
     <div id="product" class="product">
       <span id="info" class="info">
-                <div id="index">
-                  <img src="http://gdurl.com/TcSI" alt="" id="pic">
-                </div>
-          <span id="text" class="text">
-            <h2 id="name">Shoes</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-            <h3>Colors</h3>
-            <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-            </ul>
-            <span id="price">$<span id="num">120</span></span>
-      </span>
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+
+  <?php  
+    $id = 6;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
     <div id="product" class="product">
       <span id="info" class="info">
-                <div id="index">
-                  <img src="http://gdurl.com/YG8N" alt="" id="pic">
-                </div>
-          <span id="text" class="text">
-            <h2 id="name">Glasses</h2>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare facilisis ante, nec rutrum tellus. Vivamus ante augue.</p>
-            <h3>Colors</h3>
-            <ul>
-            <li id="color_one"></li>
-            <li id="color_two"></li>
-            <li id="color_three"></li>
-            <li id="color_four"></li>
-            </ul>
-            <span id="price">$<span id="num">25</span></span>
-      </span>
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
       </span>
       <button>Add to cart</button>
     </div>
+
+
+  <?php  
+    $id = 7;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
+
+  <?php  
+    $id = 8;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
+
+  <?php  
+    $id = 9;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
+
+  <?php  
+    $id = 10;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
+
+  <?php  
+    $id = 11;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
+
+  <?php  
+    $id = 12;
+    $sql = "SELECT * FROM items WHERE id = $id";
+    $sth = $db->query($sql);
+    $result=mysqli_fetch_array($sth);
+    if ($result['state'] == 0) {
+      $state = "OUT OF STOCK";
+    } else {
+      $state = "Available";
+    }
+  ?>
+  
+    <div id="product" class="product">
+      <span id="info" class="info">
+        <div id="index">
+          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $result['image'] ).'"/>'; ?> 
+        </div>
+        <span id="text" class="text">
+          <h2 id="name"><?php echo $result['name']; ?></h2>
+          <p class="description"><?php echo $result['description']; ?></p>
+          <h3><?php echo $state; ?></h3>
+          <span id="price">$<span id="num"><?php echo $result['price']; ?></span>
+          </span>
+        </span>
+      </span>
+      <button>Add to cart</button>
+    </div>
+
   </div>
   <div id="cart" class="cart">
     <h1>Cart</h1>
@@ -159,13 +402,8 @@
       <span class="right price">$<span id="total"></span></span>
     </div>
     <button>Checkout</button>
-</div>
+  </div>
 
-  <?php
-    mysql_connect('localhost', "root", "");
-    mysql_select_db('eshop');
-    mysql_close();
-  ?>
   <script src="JS/index.js"></script>
   
 </body>

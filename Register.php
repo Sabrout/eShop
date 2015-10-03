@@ -1,18 +1,29 @@
+<?php
+  session_start();
+
+  if (isset($_SESSION['EMAIL'])) {
+    die("ALREADY REGISTERED");
+    $flag = true;
+    } else {
+      $flag = false;
+    }
+?>
+
 <html>
 <head>
 	<meta charset="UTF-8">
   <title>eShop</title>
-  <link rel="stylesheet" href="CSS/style.css">
-  <link rel="stylesheet" href="CSS/home.css">
+  <link rel="stylesheet" href="CSS/signup.css">
   <script src="JS/index.js"></script>
 </head>
 <body>
-	<header class="head">
-      <img src="IMG/logo.png" class="websiteLogo" alt="Logo">
-      <ul class="navbar">
-        <li><a href="#">Shopping Cart</a></li>
+	<header class="header">
+      <a href="Default.php">
+      <img src="IMG/logo.png" class="logo" alt="Logo">
+      </a>
+      <ul class="nav">
         <li><a href="Register.php">Register</a></li>
-        <li><a href="#">Sign in</a></li>
+        <li><a href="Signin.php">Sign in</a></li>
       </ul>
   </header>
 
@@ -24,10 +35,10 @@
         <input type="text" placeholder="Last Name" id="textBox" required name="lname"/>
         <input type="text" placeholder="Email" id="textBox" required name="email"/>
         <input type="password" placeholder="Password" id="textBox" required name="password"/>
-        <input type="password" placeholder="Confirm password" id="botText" required name="conPassword" />
+        <input type="password" placeholder="Confirm Password" id="botText" required name="conPassword" />
         <input type="file" id="uploadButton" name="image">
         <input type="submit" id="loginButton" value="Sign up" name="submit"></input>
-        <a href="Default.php">Already an account? <b>Login!</b></a>
+        <a href="Default.php">Already have an account? <b>Login!</b></a>
       </form>      
     </div>
   </div>
