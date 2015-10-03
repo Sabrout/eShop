@@ -19,7 +19,7 @@
   <script src="JS/index.js"></script>
 
 </head>
-<body>
+<body onload="deleteAllCookies()">
 	<header class="header">
       <a href="Default.php">
       <img src="IMG/logo.png" class="logo" alt="Logo">
@@ -44,17 +44,7 @@
       $state = "Available";
     }
 
-    function decrementState($data) {
-          $data = trim($data);
-          $data = stripslashes($data);
-          $data = htmlspecialchars($data);
-          return $data;
-        }
   ?>
-  <script type="text/javascript">
-    //Decrementing state colulmn
-
-  </script>
 
   <div id="goods" class="goods">
     <div id="product" class="product">
@@ -70,7 +60,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="1">Add to cart</button>
+
+      <div style="display:none">
+        <P id="stock1"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
   <?php
@@ -99,7 +93,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="2">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock2"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -128,7 +126,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="3">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock3"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -157,7 +159,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="4">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock4"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -186,7 +192,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="5">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock5"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -215,7 +225,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="6">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock6"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -244,7 +258,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="7">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock7"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -273,7 +291,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="8">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock8"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -302,7 +324,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="9">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock9"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -331,7 +357,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="10">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock10"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -360,7 +390,11 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="11">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock11"><?php echo $result['state']; ?></P>
+      </div>
     </div>
 
 
@@ -389,10 +423,14 @@
           </span>
         </span>
       </span>
-      <button>Add to cart</button>
+      <button id="12">Add to cart</button>
+      
+      <div style="display:none">
+        <P id="stock12"><?php echo $result['state']; ?></P>
+      </div>
     </div>
-
   </div>
+
   <div id="cart" class="cart">
     <h1>Cart</h1>
     <div id="all">
@@ -401,8 +439,75 @@
       <h2>Total</h2>
       <span class="right price">$<span id="total"></span></span>
     </div>
-    <button>Checkout</button>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data" method="POST">
+      <input type="submit" id="loginButton" value="Checkout" name="submit"/>
+    </form>
   </div>
+
+  <?php
+
+    if (isset($_POST['submit'])) {
+      if (!$flag) {
+        echo '<script language="javascript">';
+        echo 'alert("LogIn First.")';
+        echo '</script>';
+      }
+      else {
+
+        //echo '<script language="javascript">';
+        //echo 'if (confirm("!Confirm Purchase ?")){';
+        //echo '</script>';
+
+        // Create connection
+        $conn = mysqli_connect("localhost", "root", "", "eshop");
+        // Check connection
+        if (!$conn) {
+          die("Connection failed: " . mysqli_connect_error());
+        }
+
+        for($i = 1; $i <= 12; $i++)
+        {
+          for($k = 0; true; $k++)
+          {
+            if(!isset($_COOKIE[$i . '-' . $k]))
+            {
+              break;
+            }
+            else
+            {
+              $id = $_COOKIE[$i . '-' . $k];
+
+              $db = mysqli_connect("localhost","root","","eshop");
+              $sql = "SELECT * FROM items WHERE id = \"$id\"";
+              $sth = $db->query($sql);
+              $result=mysqli_fetch_array($sth);
+              $item_name = $result['name'];
+
+              $timestamp = date("Y/m/d h:m:sa");
+
+              $sql = "INSERT INTO history (item_id, item_name, email, date) VALUES ('$id', '$item_name', '$address', '$timestamp')";
+              if ($conn->query($sql) === TRUE) {
+                } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+              }
+
+              $sql = "UPDATE `eshop`.`items` SET `state` = 'state - 1' WHERE `items`.`id` = '$id'";
+              if ($conn->query($sql) === TRUE) {
+                } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+              }
+            }
+          }
+        }
+        
+        echo '<script type="text/javascript">';
+        echo 'alert("Purchase Successful.")';
+        echo '</script>';
+
+      }
+    }
+
+  ?>
 
   <script src="JS/index.js"></script>
   
